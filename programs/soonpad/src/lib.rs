@@ -1,10 +1,10 @@
-pub mod state;
 pub mod instructions;
+pub mod state;
 
 use anchor_lang::prelude::*;
 
-pub use state::*;
 pub use instructions::*;
+pub use state::*;
 
 declare_id!("8SaP42D3JS89sDsrzthb3auioRvNU9mtGaMsDa8zGTtC");
 #[program]
