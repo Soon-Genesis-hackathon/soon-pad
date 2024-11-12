@@ -23,7 +23,7 @@ pub struct Buy<'info> {
     #[account(
         init_if_needed,
         payer = signer,
-        seeds = [b"user", signer.key().as_ref()],
+        seeds = [b"user", project.key().as_ref(), signer.key().as_ref()],
         space = User::INIT_SPACE,
         bump
     )]

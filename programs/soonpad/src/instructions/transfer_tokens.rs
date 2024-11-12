@@ -1,7 +1,9 @@
 // Tokens created from client side. Transfer the required tokens to the vault
 use anchor_lang::prelude::*;
 use anchor_spl::associated_token::AssociatedToken;
-use anchor_spl::token_interface::{Mint, TokenAccount, TokenInterface, TransferChecked, transfer_checked};
+use anchor_spl::token_interface::{
+    transfer_checked, Mint, TokenAccount, TokenInterface, TransferChecked,
+};
 
 use crate::Project;
 
@@ -27,13 +29,17 @@ pub struct TransferTokens<'info> {
     pub token_vault: InterfaceAccount<'info, TokenAccount>,
     pub associated_token_program: Program<'info, AssociatedToken>,
     pub token_program: Interface<'info, TokenInterface>,
-    pub system_program: Program<'info, System>
+    pub system_program: Program<'info, System>,
 }
 
 impl<'info> TransferTokens<'info> {
     pub fn transfer_tokens_to_vault(&mut self) -> Result<()> {
         // ADD A CHECK
-        let amount = self.project.price_per_token.checked_mul(self.project.raised).unwrap();
+        let amount = self
+            .project
+            .price_per_token
+            .checked_mul(self.project.raised)
+            .unwrap();
         let accounts = TransferChecked {
             from: self.signer.to_account_info(),
             mint: self.mint.to_account_info(),
