@@ -1,12 +1,8 @@
-//TODO
-// calculate how much each person gets
-// invested_amount * price_per_token
-
 use anchor_lang::prelude::*;
 use anchor_spl::{
     associated_token::AssociatedToken,
     token_interface::{
-        close_account, transfer_checked, CloseAccount, Mint, TokenAccount, TokenInterface,
+        transfer_checked, Mint, TokenAccount, TokenInterface,
         TransferChecked,
     },
 };
@@ -50,7 +46,10 @@ pub struct Claim<'info> {
     pub system_program: Program<'info, System>,
 }
 impl<'info> Claim<'info> {
-    pub fn claim(&mut self, bumps: ClaimBumps) -> Result<()> {
+    pub fn claim(&mut self) -> Result<()> {
+        require_keys_eq!(self.user.authority, self.signer.key());
+
+        
         let accounts = TransferChecked {
             from: self.token_vault.to_account_info(),
             to: self.signer_ata.to_account_info(),
